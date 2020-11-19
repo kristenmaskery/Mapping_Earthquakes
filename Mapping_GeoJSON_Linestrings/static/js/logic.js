@@ -28,12 +28,19 @@ let map = L.map('mapid', {
 L.control.layers(baseMaps).addTo(map);
 
 // Accessing the Toronto airline routes GeoJSON URL.
-let torontoData = "https://raw.githubusercontent.com/<GitHub_name>/Mapping_Earthquakes/main/torontoRoutes.json";
+let torontoData = "https://raw.githubusercontent.com/kristenmaskery/Mapping_Earthquakes/main/torontoRoutes.json";
 
+// Grabbing our GeoJSON data.
 // Grabbing our GeoJSON data.
 d3.json(torontoData).then(function(data) {
     console.log(data);
   // Creating a GeoJSON layer with the retrieved data.
-  L.geoJson(data).addTo(map);
+  L.geoJson(data,{
+    onEachFeature: function(feature,layer){
+      layer.bindPopup('<h3> Airline'+ feature.properties.airline + "<h/3><hr><h3> Destination:" + feature.properties.dst + "<h/3>");
+  
+    }
+  })
+  .addTo(map);
 });
 
